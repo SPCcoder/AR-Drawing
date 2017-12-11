@@ -45,10 +45,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
             }else {
                 let pointer = SCNNode.init(geometry: SCNSphere.init(radius: 0.01))
+                pointer.name = "pointer"
                 pointer.position = currentPostionOfCamera
                 
                 self.sceneView.scene.rootNode.enumerateChildNodes({ (node, _) in
+                    if node.name == "pointer"{
                     node.removeFromParentNode()
+                    }
                 })
                 
                 self.sceneView.scene.rootNode.addChildNode(pointer)
