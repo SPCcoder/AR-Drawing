@@ -10,6 +10,7 @@ import UIKit
 import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
+    @IBOutlet weak var drawButton: UIButton!
     @IBOutlet weak var sceneView: ARSCNView!
     let configuration = ARWorldTrackingConfiguration()
     
@@ -33,7 +34,27 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let orientation = SCNVector3(-transform.m31,-transform.m32,-transform.m33)// transform matrix - need to learn more about this, 3rd col, row 1
         let location = SCNVector3(transform.m41,transform.m42,transform.m43)
         let currentPostionOfCamera = orientation + location
-        print(orientation.x, orientation.y,orientation.z)
+        //print(orientation.x, orientation.y,orientation.z)
+        
+        DispatchQueue.main.async {
+            if self.drawButton.isHighlighted {
+                let sphereNode = SCNNode.init(geometry: SCNSphere.init(radius: 0.02))
+                sphereNode.position = currentPostionOfCamera
+                self.sceneView.scene.rootNode.addChildNode(sphereNode)
+                sphereNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+                
+            }else {
+                let pointer = SCNNode.init(geometry: SCNSphere.init(radius: 0.01))
+                pointer.position = currentPostionOfCamera
+                
+                self.sceneView.scene.rootNode.enumerateChildNodes({ (node, _) in
+                    node.removeFromParentNode()
+                })
+                
+                self.sceneView.scene.rootNode.addChildNode(pointer)
+                pointer.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+            }
+        }
     }
 
 
