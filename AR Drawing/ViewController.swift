@@ -23,7 +23,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.sceneView.delegate = self
     }
     @IBAction func drawButtonPressed(_ sender: Any) {
-        
+      // not implemented, using isHighlighted property instead
     }
     
     func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
